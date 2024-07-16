@@ -22,4 +22,11 @@ public class Product {
     private String brand;
     private Integer productPrice;
     private Integer stock;
+
+    public Product(String productName, String brand, Integer productPrice, Integer stock) {
+        this.productName = productName;
+        this.brand = brand;
+        this.productPrice = productPrice;
+        this.stock = stock;
+    }
 }
