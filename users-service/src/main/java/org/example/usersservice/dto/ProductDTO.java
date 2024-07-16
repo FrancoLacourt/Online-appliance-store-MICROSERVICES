@@ -14,5 +14,5 @@ public class ProductDTO {
     private String productName;
     private String brand;
     private Integer productPrice;
-    private Integer stock;
+    private Integer quantity;
 }
