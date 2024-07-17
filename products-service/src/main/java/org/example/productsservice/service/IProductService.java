@@ -10,7 +10,7 @@ public interface IProductService {
     List<Product> getAllProducts();
     Product findProductByCode(Long productCode);
     void changeProductPrice(Long productCode, Integer productPrice);
-    void changeProductStock(Long productCode, Integer stock);
+    void changeProductStock(Long productCode, Integer quantity);
     void deleteProduct(Long productCode);
 
 }
