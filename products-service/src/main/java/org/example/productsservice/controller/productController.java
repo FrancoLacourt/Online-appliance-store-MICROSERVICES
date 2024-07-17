@@ -71,12 +71,12 @@ public class productController {
 
     @PutMapping("/changeProductStock/{productCode}")
     public ResponseEntity<Product> changeProductStock (@PathVariable Long productCode, @RequestParam
-                                                       Integer productStock) {
+                                                       Integer quantity) {
 
         Product product = productService.findProductByCode(productCode);
 
         if (product != null) {
-            productService.changeProductStock(productCode, productStock);
+            productService.changeProductStock(productCode, quantity);
             return ResponseEntity.status(HttpStatus.OK).body(product);
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
