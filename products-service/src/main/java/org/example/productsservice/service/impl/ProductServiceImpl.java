@@ -42,11 +42,17 @@ public class ProductServiceImpl implements IProductService {
     }
 
     @Override
-    public void changeProductStock(Long productCode, Integer stock) {
+    public void changeProductStock(Long productCode, Integer quantity) {
 
         Product product = productRepository.findById(productCode).orElse(null);
-        product.setStock(stock);
-        productRepository.save(product);
+        Integer newStock = product.getStock() - quantity;
+
+        if (newStock < 0) {
+            System.out.println("There is not enough stock.");
+        } else {
+            product.setStock(quantity);
+            productRepository.save(product);
+        }
     }
 
     @Override
