@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.example.shoppingcartservice.dto.ProductDTO;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter @Setter
@@ -21,5 +22,5 @@ public class ShoppingCart {
     private Integer totalPrice;
 
     @ElementCollection
-    private List<ProductDTO> products;
+    private List<ProductDTO> products = new ArrayList<>();
 }
