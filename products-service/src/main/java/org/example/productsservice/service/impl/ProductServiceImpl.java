@@ -38,6 +38,7 @@ public class ProductServiceImpl implements IProductService {
 
         Product product = productRepository.findById(productCode).orElse(null);
         product.setProductPrice(productPrice);
+        productRepository.save(product);
     }
 
     @Override
@@ -45,6 +46,7 @@ public class ProductServiceImpl implements IProductService {
 
         Product product = productRepository.findById(productCode).orElse(null);
         product.setStock(stock);
+        productRepository.save(product);
     }
 
     @Override
