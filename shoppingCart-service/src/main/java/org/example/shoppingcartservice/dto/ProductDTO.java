@@ -1,6 +1,8 @@
 package org.example.shoppingcartservice.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Embeddable;
+import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,4 +19,8 @@ public class ProductDTO {
     private String brand;
     private Integer productPrice;
     private Integer quantity;
+
+    @Transient
+    @JsonIgnore
+    private Integer stock;
 }
