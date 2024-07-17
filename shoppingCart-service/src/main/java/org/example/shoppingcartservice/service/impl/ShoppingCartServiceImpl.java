@@ -24,28 +24,104 @@ public class ShoppingCartServiceImpl implements IShoppingCartService {
 
         ProductDTO productDTO = productsAPI.getProductByCode(productCode);
         productDTO.setQuantity(quantity);
+        Integer newStock = productDTO.getStock() - quantity;
 
+        if (newStock < 0) {
+            System.out.println("There is not enough stock.");
+            return null;
+        } else {
 
+            ShoppingCart shoppingCart = new ShoppingCart();
 
+            productsAPI.changeProductStock(productCode, newStock);
+
+            shoppingCart.getProducts().add(productDTO);
+            shoppingCart.setTotalPrice((shoppingCart.getTotalPrice()) +
+                    (productDTO.getProductPrice() * quantity));
+
+            return shoppingCartRepository.save(shoppingCart);
+        }
     }
 
     @Override
     public List<ShoppingCart> getAllShoppingCarts() {
-        return null;
+
+        return shoppingCartRepository.findAll();
     }
 
     @Override
     public ShoppingCart findShoppingCartById(Long id_shoppingCart) {
-        return null;
+
+        return shoppingCartRepository.findById(id_shoppingCart).orElse(null);
     }
 
     @Override
-    public void addProductToShoppingCart(Long productCode, Integer quantity) {
+    public void addProductToShoppingCart(Long productCode, Long id_shoppingCart, Integer quantity) {
 
+        ProductDTO productDTO = productsAPI.getProductByCode(productCode);
+        productDTO.setQuantity(quantity);
+        Integer newStock = productDTO.getStock() - quantity;
+
+        if (newStock < 0) {
+            System.out.println("There is not enough stock.");
+        } else {
+
+            ShoppingCart shoppingCart = shoppingCartRepository.findById(id_shoppingCart).orElse(null);
+
+            productsAPI.changeProductStock(productCode, newStock);
+
+            shoppingCart.getProducts().add(productDTO);
+            shoppingCart.setTotalPrice((shoppingCart.getTotalPrice()) +
+                    (productDTO.getProductPrice() * quantity));
+
+            shoppingCartRepository.save(shoppingCart);
+        }
     }
 
+
+    /*
+    public void deleteProductByCode(Long productCode) {
+        for (int i = 0; i < products.size(); i++) {
+            if (products.get(i).getProductCode().equals(productCode)) {
+                products.remove(i);
+                break;  // Salir del bucle una vez que se encuentra y elimina el producto
+            }
+        }
+    }
+     */
     @Override
-    public void removeProductFromShoppingCart(Long productCode, Integer quantity) {
+    public void removeProductFromShoppingCart(Long productCode, Long id_shoppingCart, Integer quantity) {
+
+        ProductDTO productDTO = productsAPI.getProductByCode(productCode);
+        productDTO.setQuantity(quantity);
+        Integer newStock = productDTO.getStock() - quantity;
+
+        if (newStock < 0) {
+            System.out.println("There is not enough stock.");
+        } else {
+
+            ShoppingCart shoppingCart = shoppingCartRepository.findById(id_shoppingCart).orElse(null);
+            List<ProductDTO> products = shoppingCart.getProducts();
+
+            for (int i = 0; i < products.size(); i++) {
+                if (products.get(i).getProductCode().equals(productCode)) {
+                    shoppingCart.setTotalPrice((shoppingCart.getTotalPrice()) -
+                            (products.get(i).getProductPrice() * products.get(i).getQuantity()));
+
+                    products.remove(i);
+                }
+            }
+
+
+            productsAPI.changeProductStock(productCode, newStock);
+
+            shoppingCart.getProducts().add(productDTO);
+            shoppingCart.setTotalPrice((shoppingCart.getTotalPrice()) +
+                    (productDTO.getProductPrice() * quantity));
+
+            shoppingCartRepository.save(shoppingCart);
+        }
+
 
     }
 
