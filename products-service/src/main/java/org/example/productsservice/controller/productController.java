@@ -3,7 +3,6 @@ package org.example.productsservice.controller;
 import org.example.productsservice.model.Product;
 import org.example.productsservice.service.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.actuate.autoconfigure.observation.ObservationProperties;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -55,6 +54,52 @@ public class productController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
+
+    @PutMapping("/changeProductPrice/{productCode}")
+    public ResponseEntity<Product> changeProductPrice (@PathVariable Long productCode, @RequestParam
+                                                       Integer productPrice) {
+
+        Product product = productService.findProductByCode(productCode);
+
+        if (product != null) {
+            productService.changeProductPrice(productCode, productPrice);
+            return ResponseEntity.status(HttpStatus.OK).body(product);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+    }
+
+    @PutMapping("/changeProductStock/{productCode}")
+    public ResponseEntity<Product> changeProductStock (@PathVariable Long productCode, @RequestParam
+                                                       Integer productStock) {
+
+        Product product = productService.findProductByCode(productCode);
+
+        if (product != null) {
+            productService.changeProductStock(productCode, productStock);
+            return ResponseEntity.status(HttpStatus.OK).body(product);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+    }
+
+    @DeleteMapping("/delete/{productCode}")
+    public ResponseEntity<Product> deleteProductById (@PathVariable Long productCode) {
+
+        Product product = productService.findProductByCode(productCode);
+
+        if (product != null) {
+            productService.deleteProduct(productCode);
+            return ResponseEntity.status(HttpStatus.OK).body(product);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+
+    }
+
+
+
+
 
 
 }
