@@ -19,8 +19,4 @@ public class ProductDTO {
     private String brand;
     private Integer productPrice;
     private Integer quantity;
-
-    @Transient
-    @JsonIgnore
-    private Integer stock;
 }
