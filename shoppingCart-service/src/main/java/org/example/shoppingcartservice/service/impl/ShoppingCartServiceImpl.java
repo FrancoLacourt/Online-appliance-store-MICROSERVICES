@@ -1,6 +1,7 @@
 package org.example.shoppingcartservice.service.impl;
 
 import org.example.shoppingcartservice.dto.ProductDTO;
+import org.example.shoppingcartservice.dto.ProductStockDTO;
 import org.example.shoppingcartservice.model.ShoppingCart;
 import org.example.shoppingcartservice.repository.IProductsAPI;
 import org.example.shoppingcartservice.repository.ShoppingCartRepository;
@@ -23,6 +24,7 @@ public class ShoppingCartServiceImpl implements IShoppingCartService {
     public ShoppingCart createShoppingCart(Long productCode, Integer quantity) {
 
         ProductDTO productDTO = productsAPI.getProductByCode(productCode);
+        ProductStockDTO productStockDTO = productsAPI.getStockByCode(productCode);
 
         if (productDTO == null) {
             System.out.println("It wasn't possible to find a product with the code: " + productCode);
@@ -30,7 +32,7 @@ public class ShoppingCartServiceImpl implements IShoppingCartService {
         }
 
         productDTO.setQuantity(quantity);
-        Integer newStock = productDTO.getStock() - quantity;
+        Integer newStock = productStockDTO.getStock() - quantity;
 
         if (newStock < 0) {
             System.out.println("There is not enough stock.");
@@ -38,6 +40,7 @@ public class ShoppingCartServiceImpl implements IShoppingCartService {
         } else {
 
             ShoppingCart shoppingCart = new ShoppingCart();
+            shoppingCart.setTotalPrice(0);
 
             productsAPI.changeProductStock(productCode, newStock);
 
@@ -65,8 +68,9 @@ public class ShoppingCartServiceImpl implements IShoppingCartService {
     public void addProductToShoppingCart(Long productCode, Long id_shoppingCart, Integer quantity) {
 
         ProductDTO productDTO = productsAPI.getProductByCode(productCode);
+        ProductStockDTO productStockDTO = productsAPI.getStockByCode(productCode);
         productDTO.setQuantity(quantity);
-        Integer newStock = productDTO.getStock() - quantity;
+        Integer newStock = productStockDTO.getStock() - quantity;
 
         if (newStock < 0) {
             System.out.println("There is not enough stock.");
@@ -95,8 +99,9 @@ public class ShoppingCartServiceImpl implements IShoppingCartService {
                     shoppingCart.setTotalPrice((shoppingCart.getTotalPrice()) -
                             (products.get(i).getProductPrice() * products.get(i).getQuantity()));
 
-                    ProductDTO productDTO = productsAPI.getProductByCode(productCode);
-                    Integer newStock = productDTO.getStock() + products.get(i).getQuantity();
+                    ProductStockDTO productStockDTO = productsAPI.getStockByCode(productCode);
+
+                    Integer newStock = productStockDTO.getStock() + products.get(i).getQuantity();
                     productsAPI.changeProductStock(productCode, newStock);
                     products.remove(i);
                 }
