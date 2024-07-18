@@ -23,6 +23,12 @@ public class ShoppingCartServiceImpl implements IShoppingCartService {
     public ShoppingCart createShoppingCart(Long productCode, Integer quantity) {
 
         ProductDTO productDTO = productsAPI.getProductByCode(productCode);
+
+        if (productDTO == null) {
+            System.out.println("It wasn't possible to find a product with the code: " + productCode);
+            return null;
+        }
+
         productDTO.setQuantity(quantity);
         Integer newStock = productDTO.getStock() - quantity;
 
@@ -78,27 +84,8 @@ public class ShoppingCartServiceImpl implements IShoppingCartService {
         }
     }
 
-
-    /*
-    public void deleteProductByCode(Long productCode) {
-        for (int i = 0; i < products.size(); i++) {
-            if (products.get(i).getProductCode().equals(productCode)) {
-                products.remove(i);
-                break;  // Salir del bucle una vez que se encuentra y elimina el producto
-            }
-        }
-    }
-     */
     @Override
-    public void removeProductFromShoppingCart(Long productCode, Long id_shoppingCart, Integer quantity) {
-
-        ProductDTO productDTO = productsAPI.getProductByCode(productCode);
-        productDTO.setQuantity(quantity);
-        Integer newStock = productDTO.getStock() - quantity;
-
-        if (newStock < 0) {
-            System.out.println("There is not enough stock.");
-        } else {
+    public void removeProductFromShoppingCart(Long productCode, Long id_shoppingCart) {
 
             ShoppingCart shoppingCart = shoppingCartRepository.findById(id_shoppingCart).orElse(null);
             List<ProductDTO> products = shoppingCart.getProducts();
@@ -108,25 +95,19 @@ public class ShoppingCartServiceImpl implements IShoppingCartService {
                     shoppingCart.setTotalPrice((shoppingCart.getTotalPrice()) -
                             (products.get(i).getProductPrice() * products.get(i).getQuantity()));
 
+                    ProductDTO productDTO = productsAPI.getProductByCode(productCode);
+                    Integer newStock = productDTO.getStock() + products.get(i).getQuantity();
+                    productsAPI.changeProductStock(productCode, newStock);
                     products.remove(i);
                 }
             }
 
-
-            productsAPI.changeProductStock(productCode, newStock);
-
-            shoppingCart.getProducts().add(productDTO);
-            shoppingCart.setTotalPrice((shoppingCart.getTotalPrice()) +
-                    (productDTO.getProductPrice() * quantity));
-
-            shoppingCartRepository.save(shoppingCart);
+        shoppingCartRepository.save(shoppingCart);
         }
-
-
-    }
 
     @Override
     public void deleteShoppingCart(Long id_shoppingCart) {
 
+        shoppingCartRepository.deleteById(id_shoppingCart);
     }
 }
