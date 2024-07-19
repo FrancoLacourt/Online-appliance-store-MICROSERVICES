@@ -3,6 +3,7 @@ package org.example.productsservice.controller;
 import org.example.productsservice.model.Product;
 import org.example.productsservice.service.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +16,9 @@ public class productController {
 
     @Autowired
     private IProductService productService;
+
+    @Value("${server.port}")
+    private int serverPort;
 
     @PostMapping("/create")
     public ResponseEntity<Product> createProduct(@RequestParam String productName,
@@ -45,6 +49,8 @@ public class productController {
 
     @GetMapping("/getProductByCode/{productCode}")
     public ResponseEntity<Product> getProductByCode (@PathVariable Long productCode) {
+
+        System.out.println("Estoy en el puerto: " + serverPort);
 
         Product product = productService.findProductByCode(productCode);
 
