@@ -25,35 +25,10 @@ public class ShoppingCartServiceImpl implements IShoppingCartService {
     @Override
     @CircuitBreaker(name = "products-service", fallbackMethod = "fallbackCreateShoppingCart")
     @Retry(name = "products-service")
-    public ShoppingCart createShoppingCart(Long productCode, Integer quantity) {
-
-        ProductDTO productDTO = productsAPI.getProductByCode(productCode);
-        ProductStockDTO productStockDTO = productsAPI.getStockByCode(productCode);
-
-        if (productDTO == null) {
-            System.out.println("It wasn't possible to find a product with the code: " + productCode);
-            return null;
-        }
-
-        productDTO.setQuantity(quantity);
-        Integer newStock = productStockDTO.getStock() - quantity;
-
-        if (newStock < 0) {
-            System.out.println("There is not enough stock.");
-            return null;
-        } else {
+    public ShoppingCart createShoppingCart() {
 
             ShoppingCart shoppingCart = new ShoppingCart();
-            shoppingCart.setTotalPrice(0);
-
-            productsAPI.changeProductStock(productCode, newStock);
-
-            shoppingCart.getProducts().add(productDTO);
-            shoppingCart.setTotalPrice((shoppingCart.getTotalPrice()) +
-                    (productDTO.getProductPrice() * quantity));
-
             return shoppingCartRepository.save(shoppingCart);
-        }
     }
 
     @Override
@@ -141,6 +116,10 @@ public class ShoppingCartServiceImpl implements IShoppingCartService {
 
     @Override
     public void deleteShoppingCart(Long id_shoppingCart) {
+
+        ShoppingCart shoppingCart = shoppingCartRepository.findById(id_shoppingCart).orElse(null);
+
+        shoppingCart.getProducts().clear();
 
         shoppingCartRepository.deleteById(id_shoppingCart);
     }
