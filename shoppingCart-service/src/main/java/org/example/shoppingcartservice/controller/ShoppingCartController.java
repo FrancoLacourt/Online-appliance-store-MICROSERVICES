@@ -24,14 +24,10 @@ public class ShoppingCartController {
     private IProductsAPI productsAPI;
 
 
-    @PostMapping("/create/{productCode}")
-    public ResponseEntity<ShoppingCart> createShoppingCart (@PathVariable Long productCode, @RequestParam Integer quantity) {
+    @PostMapping("/create")
+    public ResponseEntity<ShoppingCart> createShoppingCart () {
 
-        ShoppingCart shoppingCart = shoppingCartService.createShoppingCart(productCode, quantity);
-
-        if (productCode == null || quantity == null) {
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
-        }
+        ShoppingCart shoppingCart = shoppingCartService.createShoppingCart();
 
         if (shoppingCart == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
