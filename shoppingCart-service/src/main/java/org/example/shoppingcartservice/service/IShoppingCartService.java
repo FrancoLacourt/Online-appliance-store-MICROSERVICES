@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface IShoppingCartService {
 
-    ShoppingCart createShoppingCart(Long productCode, Integer quantity);
+    ShoppingCart createShoppingCart();
     List<ShoppingCart> getAllShoppingCarts();
     ShoppingCart findShoppingCartById(Long id_shoppingCart);
     void addProductToShoppingCart(Long productCode, Long id_shoppingCart, Integer quantity);
