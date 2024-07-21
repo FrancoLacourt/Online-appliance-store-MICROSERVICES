@@ -20,9 +20,10 @@ public class User {
     private Long id_user;
     private String name;
     private String lastname;
+    private ShoppingCartDTO shoppingCart;
 
-    @ElementCollection
-    private List<ShoppingCartDTO> shoppingCarts;
-
-
+    public User(String name, String lastname) {
+        this.name = name;
+        this.lastname = lastname;
+    }
 }
