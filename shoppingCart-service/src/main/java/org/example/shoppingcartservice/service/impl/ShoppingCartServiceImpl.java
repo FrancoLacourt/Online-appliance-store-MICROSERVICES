@@ -28,6 +28,7 @@ public class ShoppingCartServiceImpl implements IShoppingCartService {
     public ShoppingCart createShoppingCart() {
 
             ShoppingCart shoppingCart = new ShoppingCart();
+            shoppingCart.setTotalPrice(0);
             return shoppingCartRepository.save(shoppingCart);
     }
 
