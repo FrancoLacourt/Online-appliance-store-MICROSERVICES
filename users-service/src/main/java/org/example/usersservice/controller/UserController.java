@@ -4,6 +4,7 @@ import org.example.usersservice.model.User;
 import org.example.usersservice.repository.IShoppingCartAPI;
 import org.example.usersservice.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.actuate.autoconfigure.observation.ObservationProperties;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -51,6 +52,20 @@ public class UserController {
         } else {
             return ResponseEntity.status(HttpStatus.OK).body(user);
         }
+    }
+
+    @PutMapping("/cleanShoppingCart/{id_user}")
+    public ResponseEntity<User> cleanShoppingCart (@PathVariable Long id_user) {
+
+        User user = userService.getUserById(id_user);
+
+        if (user == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        } else {
+            userService.cleanShoppingCart(id_user);
+            return ResponseEntity.status(HttpStatus.OK).body(user);
+        }
+
     }
 
     @GetMapping("/deleteUserById/{id_user}")

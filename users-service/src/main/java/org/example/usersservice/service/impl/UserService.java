@@ -53,6 +53,16 @@ public class UserService implements IUserService {
     }
 
     @Override
+    public void cleanShoppingCart(Long id_user) {
+
+        User user = userRepository.findById(id_user).orElse(null);
+        Long id_shoppingCart = user.getShoppingCart().getId_shoppingCart();
+
+        shoppingCartAPI.removeAllProducts(id_shoppingCart);
+        user.setShoppingCart(shoppingCartAPI.getShoppingCartById(id_shoppingCart));
+    }
+
+    @Override
     public void deleteUserById(Long id_user) {
 
         User user = userRepository.findById(id_user).orElse(null);

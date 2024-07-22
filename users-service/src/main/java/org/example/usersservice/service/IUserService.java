@@ -9,6 +9,7 @@ public interface IUserService {
     User createUser(String name, String lastname);
     List<User> getAllUsers();
     User getUserById(Long id_user);
+    void cleanShoppingCart (Long id_user);
     void deleteUserById(Long id_user);
 
 }
