@@ -9,6 +9,7 @@ public interface IShoppingCartService {
     ShoppingCart createShoppingCart();
     List<ShoppingCart> getAllShoppingCarts();
     ShoppingCart findShoppingCartById(Long id_shoppingCart);
+    void removeAllProducts(Long id_shoppingCart);
     void addProductToShoppingCart(Long productCode, Long id_shoppingCart, Integer quantity);
     void removeProductFromShoppingCart(Long productCode, Long id_shoppingCart);
     void deleteShoppingCart(Long id_shoppingCart);

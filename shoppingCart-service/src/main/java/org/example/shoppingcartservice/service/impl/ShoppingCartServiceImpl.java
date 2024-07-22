@@ -45,6 +45,16 @@ public class ShoppingCartServiceImpl implements IShoppingCartService {
     }
 
     @Override
+    public void removeAllProducts(Long id_shoppingCart) {
+
+        ShoppingCart shoppingCart = shoppingCartRepository.findById(id_shoppingCart).orElse(null);
+
+        shoppingCart.getProducts().clear();
+        shoppingCart.setTotalPrice(0);
+        shoppingCartRepository.save(shoppingCart);
+    }
+
+    @Override
     @CircuitBreaker(name = "products-service", fallbackMethod = "fallbackAddProductToShoppingCart")
     @Retry(name = "products-service")
     public void addProductToShoppingCart(Long productCode, Long id_shoppingCart, Integer quantity) {

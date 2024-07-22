@@ -91,6 +91,19 @@ public class ShoppingCartController {
         }
     }
 
+    @PutMapping("/removeAllProducts/{id_shoppingCart}")
+    public ResponseEntity<ShoppingCart> removeAllProducts (@PathVariable Long id_shoppingCart) {
+
+        ShoppingCart shoppingCart = shoppingCartService.findShoppingCartById(id_shoppingCart);
+
+        if (shoppingCart == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        } else {
+            shoppingCartService.removeAllProducts(id_shoppingCart);
+            return ResponseEntity.status(HttpStatus.OK).body(shoppingCart);
+        }
+    }
+
     @DeleteMapping("/deleteShoppingCartById/{id_shoppingCart}")
     public ResponseEntity<ShoppingCart> deleteShoppingCart (@PathVariable Long id_shoppingCart) {
 
