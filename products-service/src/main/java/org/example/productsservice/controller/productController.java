@@ -17,9 +17,6 @@ public class productController {
     @Autowired
     private IProductService productService;
 
-    @Value("${server.port}")
-    private int serverPort;
-
     @PostMapping("/create")
     public ResponseEntity<Product> createProduct(@RequestParam String productName,
                                                  @RequestParam String brand,
@@ -49,8 +46,6 @@ public class productController {
 
     @GetMapping("/getProductByCode/{productCode}")
     public ResponseEntity<Product> getProductByCode (@PathVariable Long productCode) {
-
-        System.out.println("Estoy en el puerto: " + serverPort);
 
         Product product = productService.findProductByCode(productCode);
 
@@ -102,10 +97,4 @@ public class productController {
         }
 
     }
-
-
-
-
-
-
 }
