@@ -18,6 +18,6 @@ public class UserDTO {
     private Long id_user;
     private String name;
     private String lastname;
-    private List<ShoppingCartDTO> shoppingCarts;
+    private ShoppingCartDTO shoppingCart;
 
 }
