@@ -4,13 +4,12 @@ server:
 spring:
   application:
     name: config-server
-
   cloud:
     config:
       enabled: true
       server:
         git:
-          uri: https://github.com/FrancoLacourt/config-server-test.git
+          uri: https://github.com/FrancoLacourt/Online-appliance-store.git
           search-paths: config-data
           username: ${GIT_USERNAME}
           password: ${GIT_PASSWORD}
