@@ -5,7 +5,7 @@ spring:
   application:
     name: sales-service
   datasource:
-    url: jdbc:mysql://localhost:3306/salesService?allowPublicKeyRetrieval=true&useSSL=false&useTimezone=true&serverTimezone=GMT&characterEncoding=UTF-8
+    url: jdbc:mysql://sales-db:3306/salesService?allowPublicKeyRetrieval=true&useSSL=false&useTimezone=true&serverTimezone=GMT&characterEncoding=UTF-8
     username: root
     password: root
   jpa:

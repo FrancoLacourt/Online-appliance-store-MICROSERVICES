@@ -1,0 +1,81 @@
+version: '3.8'
+
+services:
+  eureka-server:
+    build: ./eureka-server
+    ports:
+      - "8761:8761"
+    networks:
+      - onlineappliancestore-network
+
+  products-service:
+    build: ./products-service
+    ports:
+      - "8085:8085"
+    networks:
+      - onlineappliancestore-network
+    depends_on:
+      - products-db
+
+  sales-service:
+    build: ./sales-service
+    ports:
+      - "8084:8084"
+    networks:
+      - onlineappliancestore-network
+    depends_on:
+      - sales-db
+
+  shoppingcart-service:
+    build: ./shoppingCart-service
+    ports:
+      - "8082:8082"
+    networks:
+      - onlineappliancestore-network
+    depends_on:
+      - shoppingcart-db
+
+  users-service:
+    build: ./users-service
+    ports:
+      - "8083:8083"
+    networks:
+      - onlineappliancestore-network
+    depends_on:
+      - users-db
+
+  products-db:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: productsService
+    networks:
+      - onlineappliancestore-network
+
+  sales-db:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: salesService
+    networks:
+      - onlineappliancestore-network
+
+  shoppingcart-db:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: shoppingCartService
+    networks:
+      - onlineappliancestore-network
+
+  users-db:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: userService
+    networks:
+      - onlineappliancestore-network
+
+networks:
+  onlineappliancestore-network:
+    driver: bridge
