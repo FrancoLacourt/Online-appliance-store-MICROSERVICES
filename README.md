@@ -31,11 +31,11 @@ Aclarar que este proyecto está enfocado principalmente en el uso de la arquitec
 MICROSERVICES PROJECT.
 
 This project is about an online store. It is built with a microservices architecture, consisting of the following services:
-
-Products
-Shopping Cart
-Users
-Sales
+- Products
+- Shopping Cart
+- Users
+- Sales
+  
 The Sales service consumes the Users service, the Users service consumes the Shopping Cart service, and the Shopping Cart service consumes the Products service.
 
 Flow:
