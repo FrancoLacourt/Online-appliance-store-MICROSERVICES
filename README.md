@@ -28,7 +28,8 @@ Aclarar que este proyecto está enfocado principalmente en el uso de la arquitec
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
 
-MICROSERVICES PROJECT
+MICROSERVICES PROJECT.
+
 This project is about an online store. It is built with a microservices architecture, consisting of the following services:
 
 Products
