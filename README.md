@@ -24,3 +24,30 @@ En este proyecto, utilicé los siguientes patrones de diseño:
 Y todos estos microservicios, fueron empaquetados y desplegados en Docker. Utilizando herramientas como docker-compose, y Dockerfile en cada servicio.
 
 Aclarar que este proyecto está enfocado principalmente en el uso de la arquitectura de Microservicios.
+
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------
+
+MICROSERVICES PROJECT
+This project is about an online store. It is built with a microservices architecture, consisting of the following services:
+
+Products
+Shopping Cart
+Users
+Sales
+The Sales service consumes the Users service, the Users service consumes the Shopping Cart service, and the Shopping Cart service consumes the Products service.
+
+Flow:
+When a user is created, a shopping cart is automatically created (by consuming the Shopping Cart service) and associated with the user. Each user has a unique shopping cart. Products (previously loaded by the store with their respective stock) can be added to this shopping cart by consuming the Products service. Once a sale is created (i.e., the purchase is finalized) by consuming the Users service, the time of the sale is recorded, and the details of the purchase are displayed, including the number of units of each product, the price of each, the total price, etc., and finally, the shopping cart is emptied.
+
+Design Patterns Used:
+In this project, the following design patterns were utilized:
+
+Service Registry and Service Discovery (Eureka Server)
+Load Balancing (Spring Cloud Load Balancer)
+Circuit Breaker (Resilience4J)
+API Gateway (Spring Cloud Gateway)
+Config Server
+All these microservices were packaged and deployed using Docker, with tools like docker-compose and Dockerfile for each service.
+
+Please note that this project is primarily focused on the use of microservices architecture.
